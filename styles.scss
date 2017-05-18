@@ -1,0 +1,269 @@
+/**********
+
+STYLESHEET
+
+**********/
+
+/** VARIABLES **/
+
+$transition-duration: 0.3s;
+
+/** BREAKPOINTS **/
+
+$mediaMobileWidth: 480px;
+
+/** MIXINS **/
+@mixin span-transitions {
+	-webkit-transition: background 0s $transition-duration;
+    transition: background 0s $transition-duration;
+}
+
+@mixin rotate-before {
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition-delay: 0s, $transition-duration;
+    transition-delay: 0s, $transition-duration;	
+}
+
+@mixin rotate-after {
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition-delay: 0s, $transition-duration;
+    transition-delay: 0s, $transition-duration;	
+}
+
+@mixin before-after-transitions {
+	-webkit-transition-property: top, -webkit-transform;
+    transition-property: top, transform;
+  	-webkit-transition-duration: $transition-duration, $transition-duration;
+  	transition-duration: $transition-duration, $transition-duration;
+	-webkit-transition-delay: $transition-duration, 0s;
+    transition-delay: $transition-duration, 0s;
+}
+
+@mixin menu-transition {
+  	-webkit-transition-duration: $transition-duration, $transition-duration;
+  	transition-duration: $transition-duration, $transition-duration;
+	-webkit-transition-delay: $transition-duration, 0s;
+    transition-delay: $transition-duration, 0s;
+}
+
+/** KEYFRAMES **/
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+	}
+}
+
+/** GENERAL STYLES **/
+
+html {
+	box-sizing: border-box;
+	font-family: "Pier Sans", Helvetica, Arial, sans-serif;
+	-ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+	margin: 0;
+	background-color: #070607;
+	color: #E6E7E8;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Pier Sans", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+
+/** NAVIGATION **/
+
+.nav-icon {
+	height: 70px;
+	width: 88px;
+	position: fixed;
+	right: 3%;
+    top: 2%;
+    z-index: 999;
+}
+
+.span {
+	@include span-transitions;
+	height: 6px;
+	width: 55px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background: white;
+
+	&::before, &::after {
+		@include before-after-transitions;
+		height: 6px;
+		width: 100%;
+		background: white;
+		content: "";
+		position: absolute;
+	}
+
+	&::before {
+		top: -20px;
+	}
+
+	&::after {
+		top: 20px;
+	}
+
+}
+
+
+.active .span::before {
+	@include rotate-before;
+	top: 0;
+	//animation-name: moveDown;
+	//animation-duration: 0.6s;
+}
+
+.active .span::after {
+	@include rotate-after;
+	top: 0;
+	//animation-name: moveUp;
+	//animation-duration: 0.6s;
+}
+
+.active .span {
+	background: none;
+}
+
+nav#menu {
+    @include menu-transition;
+	position: fixed;
+    right: -273px;
+    top: 0;
+    height: 100vh;
+    width: 25vw;
+    background-color: #E6E7E8;
+    color: #070607;
+    opacity: 0.8;
+
+	&.show-menu {
+		right: 0;
+	}
+}
+
+ul.nav-selection {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 25vh;
+    text-align: center;
+}
+
+ul.nav-selection li {
+	box-sizing: border-box;
+    padding: 8px 0;
+    border-bottom: 1px solid #070607;
+
+    &:first-child {
+    	border-top: 1px solid #070607;
+    }
+}
+
+
+/** CANVAS **/
+
+canvas.bg {
+	position: absolute;
+	/*
+    top: 50%;
+    left: 63%;
+    transform: translate(-50%, 6%);*/
+	z-index: -999;
+	opacity: 0;
+  	animation: fadeIn .5s ease-in 1 forwards;
+  	width: 100% !important;
+  	height: auto !important;
+}
+
+/** BODY **/
+
+#container {
+	margin: 0 auto;
+	max-width: 1080px;
+}
+
+#body-container {
+	position: relative;
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+	margin-top: 6vw;
+}
+
+
+.content {
+	position: absolute;
+	width: 29%;
+ 	opacity: 0;
+  	animation: fadeIn 1.1s ease-in 1 forwards;
+
+	&.content-1 {
+		top: 10%;
+		left: 10%;
+	}
+
+	&.content-2 {
+		top: 10%;
+		left: 65%;
+	}
+
+	&.content-title {
+		top: 52%;
+		left: 10%;
+	}
+
+	&.content-3 {
+		top: 60%;
+		left: 65%;
+	}
+}
+
+@media (max-width: $mediaMobileWidth) {
+	.content {
+		width: 100%;
+
+		&.content-1 {
+			top: 10%;
+			left: 0;
+		}
+
+		&.content-2 {
+			top: 33%;
+			left: 0;
+		}
+
+		&.content-title {
+			top: 50%;
+			left: 0;
+		}
+
+		&.content-3 {
+			top: 73%;
+			left: 0;
+		}
+	}
+}
